@@ -1,9 +1,9 @@
 name: Tjek ledige boliger
 
 on:
-  schedule:
-    - cron: "7/10 * * * *"
-  workflow_dispatch:
+    schedule:
+    - cron: "7 8-20 * * *"
+      timezone: "Europe/Copenhagen"
 
 permissions:
   contents: write
