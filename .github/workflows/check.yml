@@ -2,8 +2,7 @@ name: Tjek ledige boliger
 
 on:
   schedule:
-    # Cron kører i UTC. 06-19 UTC dækker 08-20 dansk tid både sommer og vinter.
-    - cron: "7 6-19 * * *"
+    - cron: "7/10 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -12,17 +11,12 @@ permissions:
 jobs:
   tjek:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v7
 
       - name: Tjek siden
-        run: |
-          time=$(TZ=Europe/Copenhagen date +%-H)
-          if [ "$GITHUB_EVENT_NAME" = "schedule" ] && { [ "$time" -lt 8 ] || [ "$time" -gt 20 ]; }; then
-            echo "Klokken er $time dansk tid, uden for 08-20. Springer over."
-            exit 0
-          fi
-          node check.mjs
+        run: node check.mjs
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
 
