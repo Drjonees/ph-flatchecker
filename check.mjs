@@ -42,7 +42,7 @@ for (const b of aendrede) {
   const svar = await fetch(`https://ntfy.sh/${topic}`, {
     method: "POST",
     headers: { Title: `Bolig i Ballerup: ${b.status}`, Click: SIDE, Tags: "house" },
-    body: `${b.adresse}\nStatus: ${b.status} (før: ${kendte[b.id] ?? "Udlejet"})\nFra ${b.fra}`,
+    body: `${b.adresse}\nStatus: ${b.status} (før: ${kendte[b.id] ?? "Udlejet"})` + (b.fra ? `\nFra ${b.fra}` : ""),
   });
   if (!svar.ok) {
     throw new Error(`ntfy svarede ${svar.status}`);
