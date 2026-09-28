@@ -33,7 +33,8 @@ if (boliger.length === 0) {
 
 // Alle boliger der ikke er udlejet, med deres status. En bolig der ikke står i filen, var udlejet sidst.
 const ikkeUdlejede = boliger.filter((b) => b.status !== "Udlejet");
-const kendte = existsSync(STATE_FIL) ? JSON.parse(readFileSync(STATE_FIL, "utf8")) : {};
+// En manglende eller tom fil betyder at der startes forfra.
+const kendte = existsSync(STATE_FIL) ? JSON.parse(readFileSync(STATE_FIL, "utf8").trim() || "{}") : {};
 const aendrede = boliger.filter((b) => (kendte[b.id] ?? "Udlejet") !== b.status);
 
 console.log(`${boliger.length} boliger, ${ikkeUdlejede.length} ikke udlejet, ${aendrede.length} ændret`);
