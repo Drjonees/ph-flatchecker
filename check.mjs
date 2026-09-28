@@ -22,12 +22,7 @@ const boliger = [...html.matchAll(/<tr data-row_id[^>]*>([\s\S]*?)<\/tr>/g)]
   .filter((c) => c.length >= 22)
   .map((c) => ({
     id: c[0],
-    type: c[2],
     adresse: c[3],
-    areal: c[9],
-    vaerelser: c[11],
-    leje: c[18],
-    aconto: c[19],
     fra: c[20],
     status: c[21],
   }));
@@ -47,7 +42,7 @@ for (const b of aendrede) {
   const svar = await fetch(`https://ntfy.sh/${topic}`, {
     method: "POST",
     headers: { Title: `Bolig i Ballerup: ${b.status}`, Click: SIDE, Tags: "house" },
-    body: `${b.adresse}\nStatus: ${b.status} (før: ${kendte[b.id] ?? "Udlejet"})\n${b.type}, ${b.areal}, ${b.vaerelser} vær.\n${b.leje} + ${b.aconto} aconto\nFra ${b.fra}`,
+    body: `${b.adresse}\nStatus: ${b.status} (før: ${kendte[b.id] ?? "Udlejet"})\nFra ${b.fra}`,
   });
   if (!svar.ok) {
     throw new Error(`ntfy svarede ${svar.status}`);
